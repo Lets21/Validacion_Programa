@@ -1,0 +1,45 @@
+name: Maven CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v4
+
+      - name: Configurar Java 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Build + Test + Verificación
+        run: mvn clean verify
+
+      - name: Checkstyle
+        run: mvn checkstyle:checkstyle
+        continue-on-error: true
+
+      - name: PMD
+        run: mvn pmd:check
+        continue-on-error: true
+
+      - name: Reporte JaCoCo
+        run: mvn jacoco:report
+
+      - name: Subir Reportes
+        uses: actions/upload-artifact@v4
+        with:
+          name: reportes
+          path: |
+            target/site/jacoco/
+            target/site/checkstyle.html
+            target/site/pmd.html
