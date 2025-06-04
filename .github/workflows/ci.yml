@@ -14,7 +14,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: protecto-calidad
+        working-directory: proyecto-calidad
 
     steps:
       # Paso 1: Clonar el repositorio
