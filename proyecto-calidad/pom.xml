@@ -3,18 +3,20 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.equipo</groupId>
-  <artifactId>proyecto-calidad</artifactId>
+  <groupId>edu.universidad</groupId>
+  <artifactId>biblioteca-universitaria</artifactId>
   <version>1.0-SNAPSHOT</version>
 
   <properties>
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <junit.jupiter.version>5.10.0</junit.jupiter.version>
   </properties>
 
   <dependencies>
+    <!-- JUnit 5 -->
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter</artifactId>
@@ -25,6 +27,7 @@
 
   <build>
     <plugins>
+
       <!-- Compilador -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -32,6 +35,7 @@
         <version>3.11.0</version>
         <configuration>
           <release>17</release>
+          <encoding>UTF-8</encoding>
         </configuration>
       </plugin>
 
@@ -42,7 +46,7 @@
         <version>3.0.0</version>
       </plugin>
 
-      <!-- JaCoCo -->
+      <!-- JaCoCo (cobertura) -->
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
@@ -65,7 +69,17 @@
         <configuration>
           <configLocation>google_checks.xml</configLocation>
           <encoding>UTF-8</encoding>
+          <consoleOutput>true</consoleOutput>
+          <failOnViolation>false</failOnViolation>
         </configuration>
+        <executions>
+          <execution>
+            <phase>validate</phase>
+            <goals>
+              <goal>checkstyle</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
 
       <!-- PMD -->
@@ -75,9 +89,18 @@
         <version>3.21.2</version>
         <configuration>
           <printFailingErrors>true</printFailingErrors>
+          <failOnViolation>false</failOnViolation> <!-- Para no bloquear el build -->
         </configuration>
+        <executions>
+          <execution>
+            <phase>verify</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
+
     </plugins>
   </build>
 </project>
-<!-- comentario -->
